@@ -1,12 +1,10 @@
-using JetBrains.Application.BuildScript.Application.Zones;
-using JetBrains.ReSharper.Feature.Services.Daemon;
-using JetBrains.ReSharper.Psi;
-using JetBrains.ReSharper.Psi.CSharp;
-
 namespace LocalizationTools.ReSharper
 {
+    using JetBrains.Application.BuildScript.Application.Zones;
+
     [ZoneDefinition]
-    // [ZoneDefinitionConfigurableFeature("Title", "Description", IsInProductSection: false)]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "OK")]
+    //// [ZoneDefinitionConfigurableFeature("Title", "Description", IsInProductSection: false)]
     public interface ILocalizationToolsReSharperZone : IZone
     {
     }
