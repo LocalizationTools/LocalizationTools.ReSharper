@@ -15,7 +15,9 @@
   </PropertyGroup>
 
   <PropertyGroup>
+      <HostFullIdentifier>ReSharperPlatformVs16_963d973f</HostFullIdentifier>
       <HostFullIdentifier>ReSharperPlatformVs16_963d973fpluginDebug</HostFullIdentifier>
+      <HostFullIdentifier>ReSharperPlatformVs17_4b9f8262</HostFullIdentifier>
   </PropertyGroup>
 
   <ItemGroup>

@@ -168,10 +168,9 @@
                 {
                     position = i;
 
-                    var cval = nameOfResourceProperty.ConstantValue(resolveContext);
-
-                    newParams.Add(new AttributeValue(cval));
-                    ////newParams.Add(new AttributeValue(new ConstantValue(property.ShortName, psiModule)));
+                    ////var cval = nameOfResourceProperty.ConstantValue(resolveContext);
+                    ////newParams.Add(new AttributeValue(cval));
+                    newParams.Add(new AttributeValue(new ConstantValue(property.ShortName, psiModule)));
                 }
                 else if (AnyAttributeToResourceExtractor.CheckParameterIsResourceTypeIndicator(constructorParameter))
                 {
@@ -197,7 +196,7 @@
 
             IAttribute attribute = factory.CreateAttribute(attributeElem, newParams.ToArray(), Array.Empty<Pair<string, AttributeValue>>());
 
-            ModificationUtil.ReplaceChild(attribute.ConstructorArgumentExpressions[position], nameOfResourceProperty);
+            ////ModificationUtil.ReplaceChild(attribute.ConstructorArgumentExpressions[position], nameOfResourceProperty);
 
             ////IAttribute attribute =
             ////    .CreateAttribute(

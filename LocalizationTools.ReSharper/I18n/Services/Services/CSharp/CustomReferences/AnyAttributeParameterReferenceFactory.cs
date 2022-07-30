@@ -4,20 +4,21 @@
     using JetBrains.Application.Threading;
     using JetBrains.DataFlow;
     using JetBrains.Lifetimes;
-    using JetBrains.Metadata.Reader.API;
-    using JetBrains.Metadata.Reader.Impl;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.Caches;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.ExtensionsAPI.Resolve;
     using JetBrains.ReSharper.Psi.Resolve;
     using JetBrains.ReSharper.Psi.Tree;
+    using JetBrains.ReSharper.Psi.Util;
 
-    internal class DescriptionAttributeParameterReferenceFactory :
+    internal class AnyAttributeParameterReferenceFactory :
         ResxAttributeParameterReferenceFactory
     {
-        private const string ParameterName = "Description";
-        private static readonly IClrTypeName AttributeClrName = new ClrTypeName("LocalizationTools.Attributes.LocalizedDescriptionAttribute");
+        ////private const string ParameterName = "Description";
+        ////private static readonly IClrTypeName AttributeClrName = new ClrTypeName("LocalizationTools.Attributes.LocalizedDescriptionAttribute");
+        private static readonly string[] LocalizableAttributeNames = new[] { "LocalizableAttribute", "LocalizationRequiredAttribute" };
+        private static readonly string[] ResourceTypeAttributeNames = new[] { "ResourceTypeAttribute" };
 
         public override bool HasReference(ITreeNode element, IReferenceNameContainer names)
         {
@@ -46,12 +47,16 @@
 
         protected override bool CheckParameterIsApplicable(IParameter parameter)
         {
-            ////    argument.MatchingParameter.Element.HasAttributeInstance(new ClrTypeName(""), AttributesSource.All)
+            var paramAttributes = parameter.GetAttributeInstances(true);
 
-            if (parameter?.ShortName == "description"
-                || parameter?.ShortName == "resourceKey")
+            foreach (var paramAttribute in paramAttributes)
             {
-                return true;
+                var shortName = paramAttribute.GetAttributeShortName();
+
+                if (LocalizableAttributeNames.Contains(shortName))
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -62,25 +67,48 @@
             ReferenceCollection oldReferences)
         {
             return oldReferences.Count == 1
-                   && oldReferences[0] is PublicPropertyReference<DescriptionAttributeParameterReferenceFactory>
+                   && oldReferences[0] is PublicPropertyReference<AnyAttributeParameterReferenceFactory>
                    && ((TreeReferenceBase<ICSharpExpression>)oldReferences[0]).GetElement() == element;
         }
 
         protected override ReferenceCollection CreateReferenceCollection(ICSharpArgument argument, IParameter parameter, ICSharpExpression expression)
         {
-            var typeParam = parameter.ContainingParametersOwner?.Parameters.FirstOrDefault(e1 => e1.ShortName == "resourceType");
+            var typeParam = parameter.ContainingParametersOwner?.Parameters.FirstOrDefault(CheckParameterIsResourceTypeIndicator);
 
             ITypeElement containingType = parameter.GetContainingType();
 
-            if (containingType != null && containingType.GetClrName().Equals(DescriptionAttributeParameterReferenceFactory.AttributeClrName) &&
-                typeParam != null)
+            if (typeParam != null)
             {
-                var reference = new ParameterReference<DescriptionAttributeParameterReferenceFactory>(expression, typeParam, "resourceType");
+                var reference = new ParameterReference<AnyAttributeParameterReferenceFactory>(expression, typeParam, typeParam.ShortName);
                 var collection = new ReferenceCollection(reference);
                 return collection;
             }
 
             return ReferenceCollection.Empty;
+        }
+
+        private static bool CheckParameterIsResourceTypeIndicator(IParameter parameter)
+        {
+            ////    argument.MatchingParameter.Element.HasAttributeInstance(new ClrTypeName(""), AttributesSource.All)
+
+            if (parameter.IsConstant())
+            {
+                return false;
+            }
+
+            var paramAttributes = parameter.GetAttributeInstances(true);
+
+            foreach (var paramAttribute in paramAttributes)
+            {
+                var shortName = paramAttribute.GetAttributeShortName();
+
+                if (ResourceTypeAttributeNames.Contains(shortName))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         [ReferenceProviderFactory]
@@ -104,7 +132,7 @@
                     return null;
                 }
 
-                return new DescriptionAttributeParameterReferenceFactory();
+                return new AnyAttributeParameterReferenceFactory();
             }
 
             public ISignal<IReferenceProviderFactory> Changed { get; private set; }
