@@ -11,7 +11,7 @@
     <PackageTags>resharper plugin localization attributes</PackageTags>
 
     <PackageProjectUrl>https://github.com/LocalizationTools/LocalizationTools.ReSharper</PackageProjectUrl>
-    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageLicenseUrl>https://github.com/LocalizationTools/LocalizationTools.ReSharper/blob/master/LICENSE.md</PackageLicenseUrl>
     <PackageIconUrl>https://github.com/LocalizationTools/LocalizationTools.ReSharper/raw/master/tools/icon2.jpg</PackageIconUrl>
   </PropertyGroup>
 

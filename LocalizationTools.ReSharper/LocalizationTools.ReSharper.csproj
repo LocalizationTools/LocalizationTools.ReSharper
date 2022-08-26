@@ -18,10 +18,17 @@
       <HostFullIdentifier>ReSharperPlatformVs16_963d973f</HostFullIdentifier>
       <HostFullIdentifier>ReSharperPlatformVs16_963d973fpluginDebug</HostFullIdentifier>
       <HostFullIdentifier>ReSharperPlatformVs17_4b9f8262</HostFullIdentifier>
+      <Version>2022.2.2</Version>
+      <PackageIcon>icon2.jpg</PackageIcon>
+      <PackageIconUrl />
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="stylecop.json" />
+    <None Include="..\tools\icon2.jpg">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
