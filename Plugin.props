@@ -1,16 +1,16 @@
 ﻿<Project>
 
   <PropertyGroup>
-    <SdkVersion>2022.1.2</SdkVersion>
+    <SdkVersion>2022.2.2</SdkVersion>
 
-    <Title>LocalizationTools.ReSharper</Title>
-    <Description>Description</Description>
+    <Title>Attribute Localization for ReSharper</Title>
+    <Description>Enables localization refactoring and navigation for localizable strings in C# attributes</Description>
 
-    <Authors>Author</Authors>
-    <Copyright>Copyright $([System.DateTime]::Now.Year) Maintainers of LocalizationTools.ReSharper</Copyright>
-    <PackageTags>resharper plugin</PackageTags>
+    <Authors>softworkz</Authors>
+    <Copyright>Copyright $([System.DateTime]::Now.Year) softworkz</Copyright>
+    <PackageTags>resharper plugin localization attributes</PackageTags>
 
-    <PackageProjectUrl></PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/LocalizationTools/LocalizationTools.ReSharper</PackageProjectUrl>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageIconUrl></PackageIconUrl>
   </PropertyGroup>
