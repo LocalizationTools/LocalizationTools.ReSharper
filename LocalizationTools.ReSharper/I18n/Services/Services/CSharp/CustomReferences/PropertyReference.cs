@@ -48,7 +48,7 @@
         {
             if (this.myOwner.ConstantValue.IsString())
             {
-                return (string)this.myOwner.ConstantValue.Value;
+                return this.myOwner.ConstantValue.StringValue;
             }
 
             return "???";

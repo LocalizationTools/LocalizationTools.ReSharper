@@ -17,7 +17,7 @@
         {
             this.Expression = expression;
             this.Range = range;
-            this.ToolTip = string.Format("Localizable attribute string: \"{0}\"", StringLiteralConverter.EscapeToRegular(this.Expression.ConstantValue.Value.ToString().TrimToLength()));
+            this.ToolTip = string.Format("Localizable attribute string: \"{0}\"", StringLiteralConverter.EscapeToRegular(this.Expression.ConstantValue.StringValue.TrimToLength()));
         }
 
         public ICSharpExpression Expression { get; }

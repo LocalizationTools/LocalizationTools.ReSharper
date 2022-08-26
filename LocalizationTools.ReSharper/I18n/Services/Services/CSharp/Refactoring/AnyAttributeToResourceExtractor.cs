@@ -170,7 +170,7 @@
 
                     ////var cval = nameOfResourceProperty.ConstantValue(resolveContext);
                     ////newParams.Add(new AttributeValue(cval));
-                    newParams.Add(new AttributeValue(new ConstantValue(property.ShortName, psiModule)));
+                    newParams.Add(new AttributeValue(ConstantValue.String(property.ShortName, psiModule)));
                 }
                 else if (AnyAttributeToResourceExtractor.CheckParameterIsResourceTypeIndicator(constructorParameter))
                 {
@@ -187,7 +187,7 @@
                     }
                     else
                     {
-                        newParams.Add(new AttributeValue(new ConstantValue(null, (IType)null)));
+                        newParams.Add(new AttributeValue(ConstantValue.Null(null)));
                     }
                 }
             }
@@ -361,7 +361,7 @@
             IPsiModule psiModule)
         {
             yield return Pair.Of("ResourceType", new AttributeValue(TypeFactory.CreateType(resourceClassType)));
-            yield return Pair.Of(propertyName, new AttributeValue(new ConstantValue(resourceName, psiModule)));
+            yield return Pair.Of(propertyName, new AttributeValue(ConstantValue.String(resourceName, psiModule)));
         }
 
         private class SourceElement : ISourceElement

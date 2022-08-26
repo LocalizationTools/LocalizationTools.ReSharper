@@ -534,7 +534,7 @@
                             break;
                     }
 
-                    if (documentRange.TextRange.IsEmpty || string.IsNullOrEmpty(expression.ConstantValue.Value as string))
+                    if (documentRange.TextRange.IsEmpty || string.IsNullOrEmpty(expression.ConstantValue.StringValue))
                     {
                         return;
                     }

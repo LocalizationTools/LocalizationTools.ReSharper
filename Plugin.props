@@ -12,7 +12,7 @@
 
     <PackageProjectUrl>https://github.com/LocalizationTools/LocalizationTools.ReSharper</PackageProjectUrl>
     <PackageLicenseUrl></PackageLicenseUrl>
-    <PackageIconUrl></PackageIconUrl>
+    <PackageIconUrl>https://github.com/LocalizationTools/LocalizationTools.ReSharper/raw/master/tools/icon2.jpg</PackageIconUrl>
   </PropertyGroup>
 
 </Project>

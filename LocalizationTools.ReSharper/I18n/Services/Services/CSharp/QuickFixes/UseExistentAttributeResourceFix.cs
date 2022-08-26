@@ -31,7 +31,7 @@
         {
             this.myExpression = error.Expression;
             this.Items = EmptyArray<IBulbAction>.Instance;
-            this.Items = UseExistentAttributeResourceFix.GetBulbItems(this.myExpression, this.myExpression.ConstantValue.Value as string);
+            this.Items = UseExistentAttributeResourceFix.GetBulbItems(this.myExpression, this.myExpression.ConstantValue.StringValue);
         }
 
         public IBulbAction[] Items { get; private set; }
@@ -75,7 +75,7 @@
                             {
                                 foreach (IResourceItem resourceItem in itemsByHashValue[value.GetHashCode()])
                                 {
-                                    ConstantValue resourceItemValue = service.GetResourceItemValue(referencedProject, resourceItem.Name);
+                                    var resourceItemValue = service.GetResourceItemValue(referencedProject, resourceItem.Name);
                                     if (!resourceItemValue.IsString() || value.Equals(resourceItemValue.Value as string, StringComparison.Ordinal))
                                     {
                                         bulbActionList.Add(new UseResorceQuickFix(sourceElement, extractor, resourceItem.DeclaredElement));
