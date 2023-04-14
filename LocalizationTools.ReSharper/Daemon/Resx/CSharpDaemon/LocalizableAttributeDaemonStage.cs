@@ -389,9 +389,13 @@
                     return;
                 }
 
-                if (this.myDontAnalyseVerbatimStrings && this.myLiteralService.IsVerbatimStringLiteral(literalExpression))
+                if (this.myDontAnalyseVerbatimStrings)
                 {
-                    return;
+                    StringVerbatimity? stringVerbatimity = this.myLiteralService.TryGetStringVerbatimity(literalExpression);
+                    if (stringVerbatimity.HasValue && (int)stringVerbatimity.Value - 1 <= 1)
+                    {
+                        return;
+                    }
                 }
 
                 ICSharpExpression localizableExpression;
@@ -423,9 +427,19 @@
                 IInterpolatedStringExpression interpolatedStringExpressionParam,
                 IHighlightingConsumer consumer)
             {
-                if (this.IsProcessed(interpolatedStringExpressionParam) ||
-                    (this.myDontAnalyseVerbatimStrings && interpolatedStringExpressionParam.IsVerbatim()))
+                if (this.IsProcessed(interpolatedStringExpressionParam))
                 {
+                    return;
+                }
+
+                if (this.myDontAnalyseVerbatimStrings)
+                {
+                    var stringVerbatimity = (int)InterpolatedStringExpressionExtensions.GetStringVerbatimity(interpolatedStringExpressionParam);
+                    if (stringVerbatimity == 1 || stringVerbatimity == 2)
+                    {
+                        return;
+                    }
+
                     return;
                 }
 
@@ -448,6 +462,7 @@
                 this.AddHighlighting(consumer, interpolatedStringExpressionParam);
             }
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1118:Parameter should not span multiple lines", Justification = "OK")]
             private bool LocalizeExpression(
                 ICSharpExpression expression,
                 IHighlightingConsumer consumer)
@@ -477,7 +492,11 @@
                     if (this.myDontAnalyseVerbatimStrings &&
                         LocalizableAttributeProcess.Any(
                             expression,
-                            (Predicate<IInterpolatedStringExpression>)(item => item.IsVerbatim())))
+                            (Predicate<IInterpolatedStringExpression>)(item =>
+                            {
+                                int stringVerbatimity = (int)InterpolatedStringExpressionExtensions.GetStringVerbatimity(item);
+                                return (stringVerbatimity == 1 ? 0 : (stringVerbatimity != 2 ? 1 : 0)) == 0;
+                            })))
                     {
                         return false;
                     }
@@ -486,7 +505,11 @@
                 if (this.myDontAnalyseVerbatimStrings &&
                          LocalizableAttributeProcess.Any(
                              expression,
-                             (Predicate<ILiteralExpression>)(item => this.myLiteralService.IsVerbatimStringLiteral(item))))
+                             (Predicate<ILiteralExpression>)(item =>
+                             {
+                                 StringVerbatimity? stringVerbatimity = this.myLiteralService.TryGetStringVerbatimity(item);
+                                 return stringVerbatimity.HasValue && (int)stringVerbatimity.Value - 1 <= 1;
+                             })))
                 {
                     return false;
                 }

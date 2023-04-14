@@ -119,7 +119,7 @@
             public Factory(Lifetime lifetime, IShellLocks shellLocks)
             {
                 this.myShellLocks = shellLocks;
-                this.Changed = new Signal<IReferenceProviderFactory>(lifetime, this.GetType().FullName);
+                this.Changed = new Signal<IReferenceProviderFactory>(this.GetType().FullName);
             }
 
             public IReferenceFactory CreateFactory(

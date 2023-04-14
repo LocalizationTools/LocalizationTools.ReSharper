@@ -1,7 +1,7 @@
 ﻿<Project>
 
   <PropertyGroup>
-    <SdkVersion>2022.2.2</SdkVersion>
+    <SdkVersion>2023.1.0</SdkVersion>
 
     <Title>Attribute Localization for ReSharper</Title>
     <Description>Enables localization refactoring and navigation for localizable strings in C# attributes</Description>
