@@ -17,8 +17,9 @@
   <PropertyGroup>
       <HostFullIdentifier>ReSharperPlatformVs16_963d973f</HostFullIdentifier>
       <HostFullIdentifier>ReSharperPlatformVs16_963d973fpluginDebug</HostFullIdentifier>
+      <HostFullIdentifier>ReSharperPlatformVs16_963d973fpluginDebug23</HostFullIdentifier>
       <HostFullIdentifier>ReSharperPlatformVs17_4b9f8262</HostFullIdentifier>
-      <Version>2023.1.0</Version>
+      <Version>2023.1.1</Version>
       <PackageIcon>icon2.jpg</PackageIcon>
       <PackageIconUrl />
   </PropertyGroup>

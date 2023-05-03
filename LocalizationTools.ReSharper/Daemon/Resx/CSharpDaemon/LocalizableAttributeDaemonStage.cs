@@ -392,7 +392,7 @@
                 if (this.myDontAnalyseVerbatimStrings)
                 {
                     StringVerbatimity? stringVerbatimity = this.myLiteralService.TryGetStringVerbatimity(literalExpression);
-                    if (stringVerbatimity.HasValue && (int)stringVerbatimity.Value - 1 <= 1)
+                    if (stringVerbatimity.HasValue && stringVerbatimity.Value != StringVerbatimity.Regular)
                     {
                         return;
                     }
@@ -434,13 +434,10 @@
 
                 if (this.myDontAnalyseVerbatimStrings)
                 {
-                    var stringVerbatimity = (int)InterpolatedStringExpressionExtensions.GetStringVerbatimity(interpolatedStringExpressionParam);
-                    if (stringVerbatimity == 1 || stringVerbatimity == 2)
+                    if (this.IsVerbatim(interpolatedStringExpressionParam))
                     {
                         return;
                     }
-
-                    return;
                 }
 
                 ICSharpExpression localizableExpression;
@@ -460,6 +457,12 @@
                 }
 
                 this.AddHighlighting(consumer, interpolatedStringExpressionParam);
+            }
+
+            private bool IsVerbatim(IInterpolatedStringExpression exp)
+            {
+                var verbatimity = exp.GetStringVerbatimity();
+                return verbatimity != StringVerbatimity.Regular;
             }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1118:Parameter should not span multiple lines", Justification = "OK")]
@@ -492,11 +495,7 @@
                     if (this.myDontAnalyseVerbatimStrings &&
                         LocalizableAttributeProcess.Any(
                             expression,
-                            (Predicate<IInterpolatedStringExpression>)(item =>
-                            {
-                                int stringVerbatimity = (int)InterpolatedStringExpressionExtensions.GetStringVerbatimity(item);
-                                return (stringVerbatimity == 1 ? 0 : (stringVerbatimity != 2 ? 1 : 0)) == 0;
-                            })))
+                            (Predicate<IInterpolatedStringExpression>)this.IsVerbatim))
                     {
                         return false;
                     }
@@ -508,7 +507,7 @@
                              (Predicate<ILiteralExpression>)(item =>
                              {
                                  StringVerbatimity? stringVerbatimity = this.myLiteralService.TryGetStringVerbatimity(item);
-                                 return stringVerbatimity.HasValue && (int)stringVerbatimity.Value - 1 <= 1;
+                                 return stringVerbatimity.HasValue && stringVerbatimity.Value != StringVerbatimity.Regular;
                              })))
                 {
                     return false;
