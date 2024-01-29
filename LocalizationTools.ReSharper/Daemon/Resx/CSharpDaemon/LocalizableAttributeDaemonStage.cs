@@ -237,7 +237,7 @@
 
                     FilteringHighlightingConsumer consumer = new FilteringHighlightingConsumer(this.DaemonProcess.SourceFile, this.File, this.DaemonProcess.ContextBoundSettingsStore);
                     declaration.ProcessThisAndDescendants(new LocalProcessor(this, consumer));
-                    foreach (DaemonStageResult daemonStageResult in DaemonStageResult.CreateResultsPerRehighlightRange(consumer.Highlightings, memberRange))
+                    foreach (DaemonStageResult daemonStageResult in DaemonStageResult.CreateResultsPerRehighlightRange(consumer.Highlightings, memberRange, null))
                     {
                         committer(daemonStageResult);
                     }
@@ -325,12 +325,18 @@
 
                 return component.GetResourcesInReferencedProjects(
                     project2,
-                    file => LocalizableAttributeProcess.CheckInterruption() && file.IsDefaultCulture())
+                    file =>
+                    {
+                        Interruption.Current.CheckAndThrow();
+                        return file.IsDefaultCulture();
+                    })
                     .Any(file => extractors.Any(extractor =>
-                        LocalizableAttributeProcess.CheckInterruption() &&
-                        extractor.CanUseResource(
-                            file,
-                            context)));
+                    {
+                        Interruption.Current.CheckAndThrow();
+                        return extractor.CanUseResource(
+                                   file,
+                                   context);
+                    }));
             }
 
             public override bool InteriorShouldBeProcessed(

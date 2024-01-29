@@ -9,3 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## 2023.1.0
 - Updated for SDK 2023.1
+
+## 2023.3.0
+- Updated for SDK 2023.3
