@@ -57,7 +57,7 @@
             }
 
             return new LocalizableAttributeProcess(
-                settings.GetValue(CSharpLocalizationOptionsSettingsAccessor.DontAnalyseVerbatimStrings),
+                settings.GetValue<CSharpLocalizationOptionsSettings, bool>(CSharpLocalizationOptionsSettingsAccessor.DontAnalyseVerbatimStrings),
                 LocalizableProperty.GetLocalizableProperty(settings),
                 LocalizableInspectorProperty.GetLocalizableInspectorProperty(settings),
                 this.myCodeAnnotationsCache,
@@ -168,9 +168,9 @@
                     ////    }
                     ////}
 
-                    using (ITaskBarrier fibers = this.DaemonProcess.CreateFibers())
+                    using (ITaskBarrier fibers = this.DaemonProcess.CreateTaskBarrierForStageExecution())
                     {
-                        PsiIsolationScope isolationScope = PsiIsolationScope.Current;
+                        ////PsiIsolationScope isolationScope = PsiIsolationScope.Current;
                         foreach (ICSharpTypeMemberDeclaration memberDeclaration in instance)
                         {
                             ICSharpTypeMemberDeclaration declaration = memberDeclaration;
@@ -178,10 +178,10 @@
                             {
                                 using (CompilationContextCookie.GetOrCreate(this.ResolveContext))
                                 {
-                                    using (PsiIsolationScope.SetForCurrentThread(isolationScope))
-                                    {
-                                        MemberHighlighter(declaration);
-                                    }
+                                    ////using (PsiIsolationScope.SetForCurrentThread(isolationScope))
+                                    ////{
+                                    MemberHighlighter(declaration);
+                                    ////}
                                 }
                             });
                         }
@@ -192,10 +192,10 @@
                             {
                                 using (CompilationContextCookie.GetOrCreate(this.ResolveContext))
                                 {
-                                    using (PsiIsolationScope.SetForCurrentThread(isolationScope))
-                                    {
-                                        GlobalHighlighter();
-                                    }
+                                    ////using (PsiIsolationScope.SetForCurrentThread(isolationScope))
+                                    ////{
+                                    GlobalHighlighter();
+                                    ////}
                                 }
                             });
                         }
@@ -209,10 +209,10 @@
                                 {
                                     using (CompilationContextCookie.GetOrCreate(this.ResolveContext))
                                     {
-                                        using (PsiIsolationScope.SetForCurrentThread(isolationScope))
-                                        {
-                                            MemberHighlighter(declaration);
-                                        }
+                                        ////using (PsiIsolationScope.SetForCurrentThread(isolationScope))
+                                        ////{
+                                        MemberHighlighter(declaration);
+                                        ////}
                                     }
                                 });
                             }
@@ -237,7 +237,7 @@
 
                     FilteringHighlightingConsumer consumer = new FilteringHighlightingConsumer(this.DaemonProcess.SourceFile, this.File, this.DaemonProcess.ContextBoundSettingsStore);
                     declaration.ProcessThisAndDescendants(new LocalProcessor(this, consumer));
-                    foreach (DaemonStageResult daemonStageResult in DaemonStageResult.CreateResultsPerRehighlightRange(consumer.Highlightings, memberRange, null))
+                    foreach (DaemonStageResult daemonStageResult in DaemonStageResult.CreateResultsPerRehighlightRange(consumer.CollectHighlightings(), memberRange, null))
                     {
                         committer(daemonStageResult);
                     }
@@ -247,7 +247,7 @@
                 {
                     FilteringHighlightingConsumer consumer = new FilteringHighlightingConsumer(this.DaemonProcess.SourceFile, this.File, this.DaemonProcess.ContextBoundSettingsStore);
                     this.File.ProcessThisAndDescendants(new GlobalProcessor(this, consumer));
-                    committer(new DaemonStageResult(consumer.Highlightings, 1));
+                    committer(new DaemonStageResult(consumer.CollectHighlightings(), 1));
                 }
             }
 
@@ -629,14 +629,6 @@
 
                 element.ProcessThisAndDescendants(processor);
                 return result;
-            }
-
-            private static bool CheckInterruption()
-            {
-#pragma warning disable CS0618 // Type or member is obsolete
-                InterruptableActivityCookie.CheckAndThrow(null);
-#pragma warning restore CS0618 // Type or member is obsolete
-                return true;
             }
         }
 

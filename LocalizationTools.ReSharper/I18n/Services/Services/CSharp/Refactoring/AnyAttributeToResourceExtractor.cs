@@ -5,6 +5,7 @@
     using System.Linq;
     using JetBrains.Annotations;
     using JetBrains.Application.DataContext;
+    using JetBrains.Application.Parts;
     using JetBrains.DocumentModel;
     using JetBrains.Metadata.Reader.API;
     using JetBrains.ProjectModel;
@@ -29,7 +30,7 @@
     using JetBrains.ReSharper.Resources.Shell;
     using JetBrains.Util;
 
-    [SolutionComponent]
+    [SolutionComponent(Instantiation.DemandAnyThreadSafe)]
     internal class AnyAttributeToResourceExtractor :
         ExpressionToResourceExtractorBase<ICSharpExpression>
     {

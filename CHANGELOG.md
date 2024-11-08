@@ -12,3 +12,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## 2023.3.0
 - Updated for SDK 2023.3
+
+## 2024.2.7
+- Updated for SDK 2024.2

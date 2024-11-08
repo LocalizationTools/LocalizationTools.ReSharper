@@ -3,7 +3,7 @@
     "LocalizationTools.ReSharper": {
       "commandName": "Executable",
       "executablePath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\Common7\\IDE\\devenv.exe",
-      "commandLineArgs": "/RootSuffix pluginDebug23",
+      "commandLineArgs": "/RootSuffix pluginDebug24",
       "workingDirectory": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\Common7\\IDE\\"
     }
   }
