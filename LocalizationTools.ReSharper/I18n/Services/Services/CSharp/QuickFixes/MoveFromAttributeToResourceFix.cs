@@ -47,7 +47,7 @@
 
             ISolution solution = this.myExpression.GetSolution();
             ISolutionResourceCache component = solution.GetComponent<ISolutionResourceCache>();
-            ICollection<Pair<ISourceElement, IResourceExtractor>> sourceElements = MoveFromAttributeToResourceFix.GetSourceElements(solution.GetComponents<IResourceExtractor>(), this.myExpression);
+            ICollection<Pair<ISourceElement, IResourceExtractor>> sourceElements = MoveFromAttributeToResourceFix.GetSourceElements(solution.GetComponents2<IResourceExtractor>(), this.myExpression);
             if (sourceElements.Count == 0)
             {
                 return false;

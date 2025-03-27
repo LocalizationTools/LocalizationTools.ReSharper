@@ -59,7 +59,7 @@
             ISolutionResourceCache component = solution.GetComponent<ISolutionResourceCache>();
             List<IBulbAction> bulbActionList = new List<IBulbAction>();
             ElementAccessContext context = new ElementAccessContext(treeNode);
-            List<IResourceExtractor> list = solution.GetComponents<IResourceExtractor>().ToList();
+            List<IResourceExtractor> list = solution.GetComponents2<IResourceExtractor>().ToList();
             foreach (IPsiSourceFile referencedProject in component.GetResourcesInReferencedProjects(treeNode.GetProject(), file => file.IsDefaultCulture()))
             {
                 IResourceProvider service = referencedProject.TryGetService<IResourceProvider>();

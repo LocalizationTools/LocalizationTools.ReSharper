@@ -313,7 +313,7 @@
                 }
 
                 ISolution solution = project1.GetSolution();
-                List<IResourceChecker> extractors = solution.GetComponents<IResourceChecker>().ToList();
+                List<IResourceChecker> extractors = solution.GetComponents2<IResourceChecker>().ToList();
                 ISolutionResourceCache component = solution.GetComponent<ISolutionResourceCache>();
 
                 ResourceAccessibleUtil.ResourceAccessContext context =
